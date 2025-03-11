@@ -1,0 +1,91 @@
+Section 3
+MONGO DB
+
+Datatypes:
+1. Text                ---------- "max"
+2. Boolean             ----------- true, false
+3. Integer(int32)      ----------- 1,10, 55
+4. NumberLong(int62)   ----------- 1000000000000
+5. NumberDecimal       ----------- 12.99
+6. ObjectId            ----------- ObjectId("sasfd")
+7. ISO date	       ----------- ISODate("2020-09-23")
+
+
+-----------------------------------------------------------------------------
+
+1.Important data type limits are:
+
+Normal integers (int32) can hold a maximum value of +-2,147,483,647
+
+Long integers (int64) can hold a maximum value of +-9,223,372,036,854,775,807
+
+Text can be as long as you want - the limit is the 16mb restriction for the overall document
+
+----------------------------------------------------------------------------------------
+
+lookup() function:
+It is used to reference the column of one table with column of another table.
+
+db.collection.aggregate({$lookup: { from: "authors", localField" "authors", foreignField: "_id", as: "creators")
+
+----------------------------------------------------------------------------------------
+
+Schema Validation:
+
+db.createCollection('posts', {
+    validator: {
+	$jsonSchema: {
+	    bsonType: 'object',
+            required: ['title', 'text', 'creator', 'comments'],
+	    properties: {
+		title: {
+		    bsonType: "string",
+		    description: "must be a string and is required"
+		},
+		text: {
+		    bsonType: "string",
+		    description: "must be a sting and is required"
+		},
+		creator: {
+		    bsonType: "objected",
+		    description: "must be an objected and is required"
+		},
+		comments:{
+		    bsonType: "array",
+		    description: "must be an array and is required",
+		    items: {
+			bsonType: "object",
+			required: ["text", "author"],
+			properties: {
+			    text: {
+				bsonType: "text",
+				description: "must be a string and is required"
+			     },
+			     author: {
+				bsonType: "objected",
+				description: "must be an objected and is required"
+			     }
+			}
+		   }
+       		}
+	}
+      }
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

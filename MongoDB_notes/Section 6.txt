@@ -1,0 +1,25 @@
+Section 6
+
+Assessment - 5:
+
+1. Create a new collection("sports") and upsert two new documents into it (with these fields: "title", "requiresTeam")
+
+sol:
+
+db.sports.updateMany({}, {$set: {title: "Football", requiresTeam: true}}, {upsert: true})
+
+---------------------------------------------------------------------------
+
+2. Update all documents which do require a team by adding a new field with the minimum amount of players required.
+
+sol:
+
+db.sports.updateMany({title: "Soccer", {$set: {requiresTeam: true}}, {upset: true})
+
+---------------------------------------------------------------------------
+
+3. Update all documents that require a team by increasing the number of required players by 10
+
+sol: 
+
+db.sports.updatemany({requireTeam: true}, {$inc: {minPlayers: 10}})

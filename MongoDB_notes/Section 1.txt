@@ -1,0 +1,75 @@
+Section 1 
+MONGO DB:
+
+1. Open the mongosh shell and type "monogsh" to activate the server.
+2. show dbs : to show the existing databases.
+3. use movies : it will now use the movies DB (or) it will create the new DB if not exists.
+4. INSERT:
+	 db.movies.insertOne({name: "Bahubali", budget: "100Cr", result: "Blockbuster", actors: { hero: "Prabhas, director: "S S Rajamouli" })
+
+
+	movies> db.movies.insertOne({name: "Bahubali", budget: "100Cr", result: "Blockbuster", actors: { hero: "Prabhas", director: "S S Rajamouli" }})
+	
+	o/p:
+	{
+  		acknowledged: true,
+  		insertedId: ObjectId('67c977bb24c42b0d7ac4e4a0')
+	}
+
+5. INSERT MANY:
+	db.movies.insert([{ name: "Devara", budget: "100Cr", result: "Blockbuster", actors: { hero: "Jr NTR", director: "Koratala Siva" }},
+			  { name: "Mirchi", budget: "100Cr", result: "Blockbuster", actors: { hero: "Prabhas", director: "Koratala Siva" }},
+			  { name: "Dhamaka", budget: "100Cr", result: "Blockbuster", actors: { hero: "Raviteja", director: "Kathik" }},
+			  { name: "Game Changer", budget: "100Cr", result: "Blockbuster", actors: { hero: "Ram Charan", director: "Shankar" }},
+			  { name: "Thandel", budget: "100Cr", result: "Blockbuster", actors: { hero: "Naga Chaitanya", director: "Dil raj" }},  			          { name: "Agent", budget: "100Cr", result: "Blockbuster", actors: { hero: "Akhil", director: "Srinu Vaitla" }},
+			  { name: "RRR", budget: "500Cr", result: "Blockbuster", actors: { hero: "NTR, Ram Charan", director: "SS Rajamouli"  }}, 			          { name: "Ala Vaikunthapurramuloo", budget: "100Cr", result: "Hit", actors: { hero: "Allu Arjun", director: "Trivikram" }}, 
+			  { name: "Pushpa", budget: "200Cr", result: "Blockbuster", actors: { hero: "Allu Arjun", director: "Sukumar" }}, 
+			  { name: "Sye Raa Narasimha Reddy", budget: "300Cr", result: "Hit", actors: { hero: "Chiranjeevi", director: "Surender Reddy" }}, 
+			  { name: "Khaidi", budget: "40Cr", result: "Hit", actors: { hero: "Karthi", director: "Lokesh Kanagaraj" }}, 
+			  { name: "Bheemla Nayak", budget: "100Cr", result: "Super Hit", actors: { hero: "Pawan Kalyan", director: "Saagar K Chandra" }}, 
+		  	  { name: "Vakeel Saab", budget: "75Cr", result: "Hit", actors: { hero: "Pawan Kalyan", director: "Venu Sriram" }}, 
+			  { name: "Nannaku Prematho", budget: "75Cr", result: "Hit", actors: { hero: "NTR", director: "Sukumar" }}, 
+			  { name: "Magadheera", budget: "50Cr", result: "Blockbuster", actors: { hero: "Ram Charan", director: "SS Rajamouli" }}, 
+			  { name: "Radhe Shyam", budget: "150Cr", result: "Hit", actors: { hero: "Prabhas", director: "Radha Krishna Kumar" }}
+			])
+
+6. READ: 
+	db.movies.find().pretty()
+
+7. UPDATE:
+	db.movies.updateOne({name : "RRR"}, { $set: { "actors.hero": "Jr NTR", "actors.director": "Revanth" }})
+
+	o/p:
+	{
+  	  acknowledged: true,
+ 	  insertedId: null,
+	  matchedCount: 1,
+	  modifiedCount: 1,
+	  upsertedCount: 0
+	}
+
+8. DELETE:
+	db.movies.deleteOne({name: "RRR"})
+
+	o/p:
+	 { acknowledged: true, deletedCount: 1 }
+
+9. COUNT: 
+	db.movies.count()
+
+	o/p: 17
+
+10. FIND:
+	db.movies.find()
+
+11. findOne:
+	db.movies.findOne({ name:"Bahubali" })
+
+12. findOneAndDelete:
+	db.movies.findOneandDelete({ name:"Bahubali" })
+
+13. Replace
+
+14. Projection: It will return only asked parameters i.e name (in this case) 
+	db.movies.find({}, {name:1}).pretty()
+				

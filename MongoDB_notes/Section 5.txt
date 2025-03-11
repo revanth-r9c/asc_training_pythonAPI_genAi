@@ -1,0 +1,89 @@
+Section 5
+
+Assessment 3:
+
+1. Import the attached data into a new database (e.g boxOffice) and collection (e.g movieStarts)
+
+sol:
+
+mongoimport boxoffice.json -d boxOffice -c moviestarts --drop --jsonArray
+
+use boxOffice
+
+db.moviestarts.find().pretty()
+
+
+-------------------------------------------------------------------------
+
+2. Search all movies that have a rating higher than 9.2 and a runtime lower than 100 minutes.
+
+sol:
+
+db.moviestarts.find({"meta.ratings": {$gt: 9.2}, "meta.runtime": {$lt: 100}}).pretty()
+
+
+--------------------------------------------------------------------------
+
+3. Search all movies that have a genre of "drama" or "action".
+
+sol:
+
+db.moviestarts.find({$or: [{genre: "drama"}, {genre: "action"}]}).pretty()
+
+
+--------------------------------------------------------------------------
+
+4. Search all movies where visitors exceeded expectedVistors.
+
+sol:
+
+db.moviestarts.find({$expr: {$gt: ["$visitors", "$expectedVisitors"]}}).pretty()
+
+
+---------------------------------------------------------------------------
+
+
+Assessment 4:
+
+--------------------------------------------------------------------------
+
+1. Import the attached data file into a new collection (e.g exmoviestarts) in the boxOffice database.
+
+sol:
+
+mongoimport boxoffice-extended.json -d boxOffice -c exmoviestarts --drop --jsonArray
+
+use boxOffice
+
+show collections
+
+db.exmoviestart.find().pretty()
+
+
+---------------------------------------------------------------------------
+
+2. Find all movies with exactly two genres
+
+sol:
+
+db.exmoviestarts.find({genre: {$size: 2}}).pretty()
+
+--------------------------------------------------------------------------
+ 
+
+3. Find all movies which aired in 2018
+
+sol:
+
+db.exmoviestarts.find({"meta.aired": 2018}).pretty()
+
+
+--------------------------------------------------------------------------
+
+
+4. Find all movies which have ratings grater then 8 but lower than 10
+
+sol:
+
+db.exmoviestarts.find({ratings: {$elemMatch: {$gt: 8, $lt: 10}}}).pretty()
+

@@ -1,0 +1,108 @@
+Section 2:
+MONGO DB
+
+Assessment:
+
+1. Insert 3 patient records with atleast 1 history entry per patient
+2. UPdate patient data of 1 patient with new age, name and history entry
+3. Find all patients who are older than 30 (or a value of your choice)
+4. Delete all patients who got a cold as a disease.
+
+sol-1:
+
+db.patients.insertMany([{ firstName: "Revanth", lastName: "Bollepalli", "age": 29, "history": [{ disease: "cold", treatment: "abc"}, {disease: "fever", treatment: "def"}] }, { firstName: "Hrutesh", lastName: "Gelle", "age": 23, "history": [{ disease: "lung cancer", treatment: "ert"}, {disease: "tyhpoid", treatment: "dfg"}] }, { firstName: "Max", lastName: "Schwarzmueller", "age": 42, "history": [{ disease: "thyroid", treatment: "xyz"}, {disease: "cold", treatment: "asd"}] }])
+
+o/p:
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67c9c58824c42b0d7ac4e4b1'),
+    '1': ObjectId('67c9c58824c42b0d7ac4e4b2'),
+    '2': ObjectId('67c9c58824c42b0d7ac4e4b3')
+  }
+} 
+
+
+sol-2:
+
+db.patients.updateOne( { firstName: "Max", "history.disease": "cold" }, { $set: { "history.$.disease": "lung disease" }})
+
+o/p:
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+patients> db.patients.find().pretty()
+[
+  {
+    _id: ObjectId('67c9c58824c42b0d7ac4e4b1'),
+    firstName: 'Srinivas',
+    lastName: 'Bollepalli',
+    age: 21,
+    history: [
+      { disease: 'cold', treatment: 'abc' },
+      { disease: 'fever', treatment: 'def' }
+    ],
+    'history[0]': { disease: 'headache' }
+  },
+  {
+    _id: ObjectId('67c9c58824c42b0d7ac4e4b2'),
+    firstName: 'Hrutesh',
+    lastName: 'Gelle',
+    age: 23,
+    history: { disease: 'heart disease', treatment: 'crg' }
+  },
+  {
+    _id: ObjectId('67c9c58824c42b0d7ac4e4b3'),
+    firstName: 'Max',
+    lastName: 'Schwarzmueller',
+    age: 42,
+    history: [
+      { disease: 'thyroid', treatment: 'xyz' },
+      { disease: 'cold', treatment: 'asd' }
+    ]
+  }
+]
+
+
+sol-3:
+
+db.patients.find({ age: {$gt: 30 }})
+[
+  {
+    _id: ObjectId('67c9c58824c42b0d7ac4e4b3'),
+    firstName: 'Max',
+    lastName: 'Schwarzmueller',
+    age: 42,
+    history: [
+      { disease: 'thyroid', treatment: 'xyz' },
+      { disease: 'cold', treatment: 'asd' }
+    ]
+  }
+]
+
+
+sol-4:
+
+db.patients.deleteMany({ "history.disease": 'cold' })
+
+o/p:
+{ acknowledged: true, deletedCount: 2 }
+
+
+patients> db.patients.find().pretty()
+
+o/p:
+[
+  {
+    _id: ObjectId('67c9c58824c42b0d7ac4e4b2'),
+    firstName: 'Hrutesh',
+    lastName: 'Gelle',
+    age: 23,
+    history: { disease: 'heart disease', treatment: 'crg' }
+  }
+]
