@@ -1,0 +1,84 @@
+Section 7:
+
+Creating Indexes: (in order to reduce the fetch time)
+
+Indexes allow you to retrieve data more efficiently (if used correctly) because your queires
+only have to look at a subset of all documents.
+
+You can use single-field, compound, multi-key(array) and text indexes.
+
+Indexes don't come for free, they will slow down your writes.
+
+db.Collection.createIndex({"dob.age": {$gt: 60}});
+
+db.collection.dropIndex({"dob.age": 1});
+
+
+---------------------------------------------------------------------------
+
+Geospatial Data:
+
+Storing Geospatial Data:
+
+1. You store geospatial data next to your other data in your documents.
+2. Geospatial data has to follow the special GeoJSON format- and respect the types supported by MongoDB
+3. Don't forget that the coordinates are [longitude, latitude], not the other way around!
+
+Geospatial Queries:
+1. $near, $geoWithin and $geoIntersects get you very far
+2. Geospatial queries work with GeoJSON data
+
+Geospatial Indexes:
+1. You can add an index to geospatial data: "2dsphere"
+2. Some operations ($near) require such an index
+
+
+---------------------------------------------------------------------------
+
+Assignment - 6:
+
+---------------------------------------------------------------------------
+
+1. Pick 3 points on Google Maps and store them in a collection.
+
+sol:
+
+db.places.insertOne({name: "My old place", loc: {type: "Point", coordinates: [11.56934, 48.13203]}})
+
+------------------------------------------------------------------------
+
+2. Pick a point and find the nearest points within a min and max distance
+
+sol:
+
+db.places.find({loc: {$near: {$gepmetry: {type: "Point", coordinates: myLocation}, $minDistance: 1000, $maxDistance: 2000}}}).pretty()
+
+------------------------------------------------------------------------
+
+3. Pick an area and see which points (that are stored in your collection) it contains.
+
+sol: 
+
+const p1 = [1.6097, 48.14522]
+const p2 = [11.57142, 48.154156]
+const p3 = [11.6, 48.15416]
+const polygonArea = [[p1, p2, p3, p1]]
+const polygonObject = {type: "Polygon", coordinates: polygonArea}
+db.places.find({loc: {$geometry: polygonObject}}}).pretty()
+
+-------------------------------------------------------------------------
+
+4. Store at least one area in a different collection.
+
+sol:
+
+db.areas.insertOne({name: "Free Time Well-Being Area", a: polygonObject})
+
+--------------------------------------------------------------------------
+
+5. Pick a point and find out which areas in your collection contain that point.
+
+sol:
+
+db.areas.find({a: {$geoIntersects: {$geometry: {type: "Point", coordinates: [11.61779, 48.15122]}}}}).pretty()
+

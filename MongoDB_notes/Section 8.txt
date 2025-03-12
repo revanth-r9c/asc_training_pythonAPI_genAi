@@ -1,0 +1,33 @@
+Section 8:
+
+Aggregation:
+-------------
+
+Stages & Operators:
+
+1. There are plenty of available stages and operators you can choose from
+2. Stages define the different steps your data is funneled through
+3. Each stage receives the output of the last stage as input
+4. Operators can be used inside of stages to transform, limit or re-calculate data
+
+Important Stages:
+
+1. The most important stages are $match, $group, $project, $sort and $unwind - you'll work with these a lot.
+2. Whilst there are some common behaviors between find() filters + projection and $match + $project, the aggregation stages generally are more flexible.
+
+
+Assignment - 7:
+-----------------
+
+sol:
+
+db.persons.aggragate([
+	{ $match: { 'dob.age': { $gt: 50 } } },
+	{ &group: {
+	      _id: { gender: '$gender' },
+	      numPersons: { $sum: 1 },
+	      avgAge: { $avg: '$dob.age' }
+	   }
+	},
+	{ $sort: { numPersons: -1 } }
+]).pretty();
